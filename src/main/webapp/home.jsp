@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+    <%@page import="java.io.*,java.util.*,javax.servlet.*,hospitalM.Servlet.HomeController,hospitalM.Model.MedicineModel" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,22 +11,41 @@
 <link rel="stylesheet" href="main.css">
 </head>
 <body>
-<div="container">
-<ul class="nav">
-  <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="#">Home</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
+<%
 
-</ul>
+	MedicineModel medicineModel = (MedicineModel) request.getAttribute("medi");
+	if(medicineModel != null) System.out.println("We came to Home jsp and Name field value is "+medicineModel.getName());
+	String success = (String) request.getAttribute("message");
+	String fail = (String) request.getAttribute("error");
+	Boolean btn = (Boolean) request.getAttribute("fb");
+	if(btn == null){
+		btn =true;
+	}
+	String action = "";
+	if(btn) action ="ADD";
+	else action = "UPDATE";
+	String path = "";
+	String type = "";
+	String message = "";
+	if (success != null)
+		path = "<div class='alert alert-success alert-dismissible fade show'><button type='button' class='close' data-dismiss='alert'>&times;</button><strong>Success! </strong> "
+		+ success + "</div> </div>";
+	else if (fail != null)
+		path = "<div class='alert alert-danger alert-dismissible fade show'><button type='button' class='close' data-dismiss='alert'>&times;</button><strong>Error!</strong> "
+		+ fail + "</div>";
+
+	%>
+
+
+
+<div="container">
+
+<div class="alert-box" style="margin-top: 10px;margin-bottom: -10px;margin-left: 10px;margin-right: 10px;">
+<%=path %>
+</div>
 	
 <div class="row">
-    <div class="col">
+    <div class="col-9">
      <div class="card-1">
      	 <table id="table_id" class="table">
     <thead class="table-primary">
@@ -59,36 +79,43 @@
 </table>
      </div>
     </div>
-    <div class="col">
-    <div class = "card-heading">
-    	<h1>Add Medicine</h1>
+    <div class="col-3">
+    <div class = "card-heading" onclick="location.href='HomeController?action=ADD';" style="cursor: pointer;">
+    	<h1 style="color: white;">Add Medicine</h1>
     </div>
     
      	<div class="card-2">
-     	<form action="${pageContext.request.contextPath}/HomeController?action=ADD" method="post">
-	
+     	<form action="${pageContext.request.contextPath}/HomeController?action=<%=action %>" method="post">
+	<input type="hidden"  id="id" aria-describedby="id" placeholder="Enter Category" name="id" value=${ medi.getId() }>
   <div class="form-group">
-    <label for="exampleInputEmail1">Medicine Name</label>
-    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Medicine Name" name="medicalname">
-  </div>
- <div class="form-group">
-    <label for="exampleInputEmail1">Stock Availability</label>
-    <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Stock Availability" name="stock">
+    <label for="mediName">Medicine Name</label>
+    <input type="text" class="form-control" id="mediName" value="${ medi.getName() }" placeholder="Enter Medicine Name"  name="medicalname" >
   </div>
   <div class="form-group">
-    <label for="exampleInputEmail1">Category</label>
-    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Category" name="category">
+    <label for="cat">Category</label>
+    <input type="text" class="form-control" id="cat" value="${ medi.getCategory() }"  placeholder="Enter Category" name="category" >
   </div>
-  <div class="form-group">
-    <label for="exampleInputEmail1">Price</label>
-    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Price" name="price">
+   <div class="form-group">
+    <label for="company">Company</label>
+    <input type="text" class="form-control" id="company" value="${ medi.getCompany() }"  placeholder="Enter Company" name="company" >
+  </div>
+   <div class="form-group">
+    <label for="expDate">Exp Date</label>
+    <input type="date" class="form-control" id="expDate" value="${ medi.getExpdate() }"  placeholder="Enter Expire Date" name="expDate" >
   </div>
     <div class="form-group">
-    <label for="exampleInputEmail1">Quantity</label>
-    <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Quantity" name="quantity">
+    <label for="fabDate">Fab Date</label>
+    <input type="date" class="form-control" id="fabDate" value="${ medi.getFabDate() }" placeholder="Enter Fab DAte" name="fabDate" >
   </div>
-  <center><button type="submit" class="btn btn-primary">ADD</button></center>
-	
+  <div class="form-group">
+    <label for="price">Price</label>
+    <input type="text" class="form-control" id="price" value="${ medi.getPrice() }" placeholder="Enter Price" name="price" >
+  </div>
+    <div class="form-group">
+    <label for="quantity">Quantity</label>
+    <input type="number" class="form-control" id="quantity" value="${ medi.getQuantity() }" placeholder="Enter Quantity" name="quantity">
+  </div>
+  <center> <%if(btn) {%> <button type="submit"  name="submit"  class="btn btn-primary" value="Submit">ADD</button><%} else{ %>  <button type="submit" class="btn btn-primary" name="submit" value="Update">Update</button> <%} %>  </center>
 	
 	</form>
      	</div>

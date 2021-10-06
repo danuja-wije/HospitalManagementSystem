@@ -9,6 +9,7 @@ public class MedicineModel {
 	private int quantity;
 	private String expdate;
 	private String fabDate;
+	private String company;
 	
 	public MedicineModel() {
 		super();
@@ -17,6 +18,16 @@ public class MedicineModel {
 
 	public String getExpdate() {
 		return expdate;
+	}
+
+
+	public String getCompany() {
+		return company;
+	}
+
+
+	public void setCompany(String company) {
+		this.company = company;
 	}
 
 

@@ -36,7 +36,7 @@ body{
 	justify-content: center;
 	align-items: center;
 }
-.card-heading h1{
-	color: white;
-
+.main-head{
+	display: flex;
+	justify-content: flex-start;
 }

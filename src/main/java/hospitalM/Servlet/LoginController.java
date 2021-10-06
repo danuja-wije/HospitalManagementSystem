@@ -78,6 +78,7 @@ public class LoginController extends HttpServlet {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("HomeController?action=HOME");
 			dispatcher.forward(request, response);
 		}else {
+			request.setAttribute("message", "Invalid user name or password! Please try again");
 			RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
 			dispatcher.forward(request, response);
 		}

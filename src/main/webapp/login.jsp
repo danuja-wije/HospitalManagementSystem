@@ -31,7 +31,17 @@ border-radius: 15px;
 </style>
 </head>
 <body>
+<%
+	String message = (String) request.getAttribute("message");
+	
+%>
+
 <div class="container">
+<%if(message != null){ %>
+<div class="alert alert-danger" role="alert" style="font-weight: normal;font-size: medium;font-family: sans-serif;">
+  <%=message %>
+</div>
+<%} %>
 <form action="${pageContext.request.contextPath}/LoginController?action=CHECK" method="post">
   <div class="form-group">
   	<center><img src="images/logo.png" class="logo"></center>
